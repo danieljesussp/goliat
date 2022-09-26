@@ -1,6 +1,7 @@
 name: Upgrade Software Umami
 
 on:
+  workflow_dispatch:
   schedule:
     - cron: 0 12 * * 6
   workflow_call:
@@ -14,9 +15,7 @@ on:
       PORT:
         required: false
       FINGERPRINT:
-        required: false     
-env:
-  REPOSITORY: umami-software/umami
+        required: false   
 
 jobs:
   update:
