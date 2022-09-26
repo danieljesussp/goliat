@@ -1,4 +1,4 @@
-name: Upgrade Software Umami
+name: Update & upgrade packages system
 
 on:
   workflow_dispatch:
