@@ -1,0 +1,53 @@
+name: Upgrade Software Umami
+
+on:
+  schedule:
+    - cron: 0 12 * * 6
+  workflow_call:
+    secrets:
+      HOST:
+        required: false
+      USERNAME:
+        required: false
+      KEY:
+        required: false
+      PORT:
+        required: false
+      FINGERPRINT:
+        required: false     
+env:
+  REPOSITORY: umami-software/umami
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Upgradeable packages of your system
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          fingerprint: ${{ secrets.FINGERPRINT }}
+          script: apt list --upgradable
+
+      - name: Update the list of available packages and their versions
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          fingerprint: ${{ secrets.FINGERPRINT }}
+          script: apt-get update
+
+      - name: Update the packages
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          port: ${{ secrets.PORT }}
+          fingerprint: ${{ secrets.FINGERPRINT }}
+          script: apt-get upgrade -y
